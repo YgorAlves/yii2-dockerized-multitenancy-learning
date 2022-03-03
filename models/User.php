@@ -2,10 +2,8 @@
 
 namespace app\models;
 
-use app\components\ActiveRecord;
-use yii\web\IdentityInterface;
-
-class User extends ActiveRecord implements IdentityInterface
+use app\Infrastructure\DB\Record;
+class User extends Record
 {
 
     public static function tableName()
@@ -23,9 +21,6 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['username' => $username]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function findIdentityByAccessToken($token, $type = null)
     {
         foreach (self::findAll([]) as $user) {
@@ -37,25 +32,16 @@ class User extends ActiveRecord implements IdentityInterface
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAuthKey()
     {
         return $this->authKey;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
@@ -71,4 +57,5 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->password === $password;
     }
+
 }

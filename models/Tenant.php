@@ -2,11 +2,10 @@
 
 namespace app\models;
 
-use app\components\ActiveRecordLandlord;
+use app\Infrastructure\DB\RecordLandlord;
 use Yii;
-use yii\helpers\Url;
 
-class Tenant extends ActiveRecordLandlord
+class Tenant extends RecordLandlord
 {
 
     public static function tableName()
