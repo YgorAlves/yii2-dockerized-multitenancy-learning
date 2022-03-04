@@ -24,33 +24,13 @@ $config = [
             ],
         ],
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'dU1ErcY1nwh89V8sPHBMIldNgwxojGqr',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
-            'enableCsrfCookie' => false,
         ],
         'response' => [
             'format' => yii\web\Response::FORMAT_JSON,
             'charset' => 'UTF-8',
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-                if ($response->data !== null && Yii::$app->request->get('suppress_response_code')) {
-                    $response->data = [
-                        'success' => $response->isSuccessful,
-                        'data' => $response->data,
-                    ];
-                    $response->statusCode = 200;
-                }
-            },
-            'formatters' => [
-                \yii\web\Response::FORMAT_JSON => [
-                    'class' => 'yii\web\JsonResponseFormatter',
-                    'prettyPrint' => YII_DEBUG,
-                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
-                ],
-            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -60,6 +40,7 @@ $config = [
             'enableAutoLogin' => false,
         ],
         'tenant' => [
+            'identityClass' => 'app\models\Tenant',
             'class' => 'app\models\Tenant',
         ],
         'errorHandler' => [
